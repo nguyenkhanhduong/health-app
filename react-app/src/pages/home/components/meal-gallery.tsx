@@ -1,14 +1,17 @@
 import dayjs from 'dayjs'
 import type { FC } from 'react'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 import { MealCard } from '@/pages/home/components/meal-gallery-item'
+import { MealSelector } from '@/pages/home/components/meal-selector'
 import { useGetMeals } from '@/pages/home/hooks/use-get-meals'
 import { Button } from '@/shadcn/components/ui/button'
 import { Skeleton } from '@/shadcn/components/ui/skeleton'
+import type { MealType } from '@/types'
 
 export const MealGallery: FC = () => {
-  const { meals, fetchNextPage, hasNextPage, isFetching, isLoading } = useGetMeals()
+  const [typeSelected, setTypeSelected] = useState<MealType | undefined>()
+  const { meals, fetchNextPage, hasNextPage, isFetching, isLoading } = useGetMeals(typeSelected)
   const bottomRef = useRef<HTMLDivElement>(null)
   const handleLoadMore = async () => {
     await fetchNextPage()
@@ -17,7 +20,11 @@ export const MealGallery: FC = () => {
     }, 100)
   }
   return (
-    <section className='app-container flex flex-col gap-7 pb-13'>
+    <section className='app-container flex flex-col pb-16'>
+      <MealSelector
+        type={typeSelected}
+        onChange={setTypeSelected}
+      />
       <div className='grid grid-cols-4 gap-2'>
         {meals.map(meal => (
           <MealCard
@@ -40,7 +47,7 @@ export const MealGallery: FC = () => {
         <Button
           onClick={handleLoadMore}
           disabled={!hasNextPage}
-          className='btn-gradient mx-auto h-14 w-74 text-[18px] leading-[26px]'
+          className='btn-gradient mx-auto mt-5 h-14 w-74 text-[18px] leading-[26px]'
         >
           記録をもっと見る
         </Button>

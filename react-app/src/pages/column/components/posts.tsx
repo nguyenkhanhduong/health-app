@@ -17,9 +17,9 @@ export const Posts = () => {
   return (
     <section className='app-container mt-14 mb-16 flex flex-col'>
       <div className='flex flex-wrap gap-2'>
-        {posts.map((item, index) => (
+        {posts.map(item => (
           <div
-            key={index}
+            key={item.id}
             className='group flex h-55.5 w-[234px] flex-col'
           >
             <div className='relative h-36 w-full overflow-hidden'>
@@ -55,7 +55,7 @@ export const Posts = () => {
         <Button
           onClick={handleLoadMore}
           disabled={!hasNextPage}
-          className='btn-gradient mx-auto mt-6 h-14 w-74 text-[18px] leading-[26px]'
+          className='btn-gradient mx-auto mt-4 h-14 w-74 text-[18px] leading-[26px]'
         >
           コラムをもっと見る
         </Button>

@@ -1,4 +1,5 @@
 export interface Diary {
+  id: string
   date: string | Date
   title: string
   des: string

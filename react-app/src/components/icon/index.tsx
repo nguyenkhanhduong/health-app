@@ -1,7 +1,25 @@
 import type { CSSProperties, FC } from 'react'
 
+import ChallengeIcon from '@/assets/icons/icon_challenge.svg?react'
+import CupIcon from '@/assets/icons/icon_cup.svg?react'
+import InfoIcon from '@/assets/icons/icon_info.svg?react'
+import KnifeIcon from '@/assets/icons/icon_knife.svg?react'
+import MemoIcon from '@/assets/icons/icon_memo.svg?react'
+import MenuIcon from '@/assets/icons/icon_menu.svg?react'
+
+const icons = {
+  challenge: ChallengeIcon,
+  cup: CupIcon,
+  info: InfoIcon,
+  knife: KnifeIcon,
+  memo: MemoIcon,
+  menu: MenuIcon,
+} as const
+
+export type IconName = keyof typeof icons
+
 interface IconProps {
-  name: string
+  name: IconName
   size?: number | string
   color?: string
   className?: string
@@ -15,22 +33,17 @@ export const Icon: FC<IconProps> = ({
   className = '',
   style,
 }) => {
-  const iconSrc = `/icons/icon_${name}.svg`
-
-  const iconStyle: CSSProperties = {
-    width: size,
-    height: size,
-    color,
-    ...style,
-  }
+  const SvgIcon = icons[name]
 
   return (
-    <img
-      src={iconSrc}
-      alt={name}
-      className={`icon ${className}`}
-      style={iconStyle}
-      draggable={false}
+    <SvgIcon
+      width={size}
+      height={size}
+      fill={color}
+      color={color}
+      className={className}
+      style={style}
+      aria-label={name}
     />
   )
 }

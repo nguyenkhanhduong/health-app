@@ -1,6 +1,9 @@
+import clsx from 'clsx'
 import type { FC, ReactNode } from 'react'
 
+import type { IconName } from '@/components/icon'
 import { Icon } from '@/components/icon'
+import type { MealType } from '@/types'
 
 interface HexagonProps {
   width?: number
@@ -30,37 +33,45 @@ export const Hexagon: FC<HexagonProps> = ({
     </div>
   </div>
 )
-const mealItems = [
+const mealItems: { icon: IconName; type: MealType }[] = [
   {
     icon: 'knife',
-    label: 'Morning',
+    type: 'Morning',
   },
   {
     icon: 'knife',
-    label: 'Lunch',
+    type: 'Lunch',
   },
   {
     icon: 'knife',
-    label: 'Dinner',
+    type: 'Dinner',
   },
   {
     icon: 'knife',
-    label: 'Snack',
+    type: 'Snack',
   },
 ]
-export const MealSelector = () => (
-  <section className='app-container flex items-center gap-16 py-6'>
+type Props = {
+  type?: MealType
+  onChange: (t?: MealType) => void
+}
+export const MealSelector: FC<Props> = ({ type, onChange }) => (
+  <div className='app-container flex items-center gap-16 py-6'>
     {mealItems.map(i => (
       <Hexagon
-        key={i.label}
+        key={i.type}
+        onClick={() => onChange(type && i.type === type ? undefined : i.type)}
         className='flex flex-col justify-center'
       >
         <Icon
           size={56}
           name={i.icon}
+          color={i.type === type ? '#EA6C00' : '#ffffff'}
         />
-        <span className='font-inter text-xl'>{i.label}</span>
+        <span className={clsx('font-inter text-xl', { ['text-primary-500']: i.type === type })}>
+          {i.type}
+        </span>
       </Hexagon>
     ))}
-  </section>
+  </div>
 )

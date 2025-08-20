@@ -19,9 +19,9 @@ export const Diary = () => {
       <div className='flex w-full flex-col'>
         <h3 className='font-inter text-dark-500 text-[22px] leading-[27px]'>MY DIARY</h3>
         <div className='text-dark-500 flex flex-wrap gap-3'>
-          {diaries.map((i, index) => (
+          {diaries.map(i => (
             <div
-              key={index}
+              key={i.id}
               className='flex h-[231px] w-[231px] flex-col gap-2 border-2 border-gray-400 p-4'
             >
               <span className='font-inter w-[147px] text-[18px] leading-[22px] tracking-[0.09px] whitespace-pre-line'>
@@ -48,7 +48,7 @@ export const Diary = () => {
           <Button
             disabled={!hasNextPage}
             onClick={handleLoadMore}
-            className='btn-gradient mx-auto mt-6 h-14 w-74 text-[18px] leading-[26px]'
+            className='btn-gradient mx-auto mt-[18px] h-14 w-74 text-[18px] leading-[26px]'
           >
             自分の日記をもっと見る
           </Button>

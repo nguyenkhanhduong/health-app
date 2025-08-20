@@ -18,9 +18,9 @@ export const Exercise = () => {
         <div className='custom-scrollbar mt-1 max-h-80 overflow-y-auto pr-6'>
           <div className='grid grid-cols-2 gap-10'>
             <ul className='list-disc space-y-2 divide-y divide-gray-600'>
-              {leftColumn.map((exercise, i) => (
+              {leftColumn.map(exercise => (
                 <ExerciseItem
-                  key={i}
+                  key={exercise.id}
                   exercise={exercise}
                 />
               ))}

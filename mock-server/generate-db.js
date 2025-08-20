@@ -42,6 +42,7 @@ function generateYearlyData() {
 }
 function generateDailyData() {
   return Array.from({ length: 24 }).map((_, i) => ({
+    id: faker.string.uuid(),
     time: `${i + 1}時`, // 1時, 2時, ..., 24時
     line1: faker.number.int({ min: 30, max: 100 }),
     line2: faker.number.int({ min: 30, max: 100 }),
@@ -51,6 +52,7 @@ function generateDailyData() {
 function generateWeeklyData() {
   const daysOfWeek = ["月", "火", "水", "木", "金", "土", "日"];
   return daysOfWeek.map((day) => ({
+    id: faker.string.uuid(),
     time: day,
     line1: faker.number.int({ min: 30, max: 100 }),
     line2: faker.number.int({ min: 30, max: 100 }),
@@ -59,6 +61,7 @@ function generateWeeklyData() {
 
 function generateMonthlyData() {
   return Array.from({ length: 30 }).map((_, i) => ({
+    id: faker.string.uuid(),
     time: `${i + 1}日`,
     line1: faker.number.int({ min: 30, max: 100 }),
     line2: faker.number.int({ min: 30, max: 100 }),
@@ -67,6 +70,7 @@ function generateMonthlyData() {
 
 function generateDailyData() {
   return Array.from({ length: 24 }).map((_, i) => ({
+    id: faker.string.uuid(),
     time: `${i + 1}時`,
     line1: faker.number.int({ min: 30, max: 100 }),
     line2: faker.number.int({ min: 30, max: 100 }),
@@ -82,6 +86,7 @@ function generateExercise() {
 }
 function generateDiary() {
   return Array.from({ length: 24 }).map((_, i) => ({
+    id: faker.string.uuid(),
     date: new Date(),
     title: "私の日記の記録が一部表示されます。",
     des: "テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト トテキスト トテキストテキスト トテキスト",
@@ -101,8 +106,9 @@ function generatePosts() {
   const posts = [];
   for (let i = 0; i < 28; i++) {
     posts.push({
-      title: '魚を食べて頭もカラダも元気に！知っておきたい魚を食べるメリ…',
-      tags: ['#魚料理', '#和食', '#DHA'],
+      id: faker.string.uuid(),
+      title: "魚を食べて頭もカラダも元気に！知っておきたい魚を食べるメリ…",
+      tags: ["#魚料理", "#和食", "#DHA"],
       date: new Date(),
       url: urls[i % urls.length],
     });

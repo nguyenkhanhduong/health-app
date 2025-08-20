@@ -7,6 +7,7 @@ export interface Meal {
   url: string
 }
 export type ChartLineData = {
+  id: string
   time: string
   line1: number
   line2: number

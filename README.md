@@ -77,6 +77,11 @@ pnpm dev
 - `pnpm --filter react-app lint`: Lint code
 - `pnpm --filter react-app format`: Format code
 
+
+## UI Testing Guideline
+
+- **Always test the UI at a screen width of 1280px**. The design is optimized for this breakpoint. Ensure all layouts, spacing, and components look correct at 1280px width for best results.
+
 ## Coding Guidelines
 
 - Prefer small, stateless, testable components
@@ -97,6 +102,5 @@ pnpm dev
 ## Contact
 
 - Author: nguyenkhanhduong
-- Email: [your-email@example.com]
 
 ---

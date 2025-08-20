@@ -6,7 +6,7 @@ import { RecordCategories } from '@/pages/record/components/record-categories'
 import { RecordChart } from '@/pages/record/components/record-chart'
 
 export const RecordPage: FC = () => (
-  <div className='flex flex-col pb-12'>
+  <div className='flex flex-col pb-16'>
     <RecordCategories />
     <RecordChart />
     <Exercise />
