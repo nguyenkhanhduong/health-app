@@ -10,7 +10,6 @@ export const MainLayout: FC = () => (
     <Header />
     <main
       role='main'
-      className='mb-32'
     >
       <Outlet />
     </main>
