@@ -22,9 +22,12 @@ body {
   .hexagon-inner {
     width: 100%;
     height: 100%;
-    background: linear-gradient(155.89deg, #ffcc21 8.26%, #ff963c 91.18%);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: linear-gradient(to top right, #ffcc21 8.26%, #ff963c 91.18%);
+    clip-path: polygon(50% 100%, 0% 75%, 0% 25%, 50% 0%, 100% 25%, 100% 75%);
     @apply flex items-center justify-center transition-transform duration-200;
+    opacity: 1 !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
   }
 
   .hexagon:hover .hexagon-inner {
@@ -34,11 +37,13 @@ body {
   .hexagon-content {
     @apply flex h-full w-full flex-col items-center justify-center text-center text-white;
   }
+
   .btn-gradient {
-    background: linear-gradient(32.95deg, #ffcc21 8.75%, #ff963c 86.64%);
+    background: linear-gradient(to top right, #ffcc21 8.75%, #ff963c 86.64%);
     color: white;
     border: none;
   }
+
   .btn-gradient:hover {
     opacity: 0.9;
   }

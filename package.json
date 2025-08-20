@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "pnpm --filter react-app dev &  pnpm --filter mock-server json-server"
+    "dev": "cross-env NODE_ENV=development concurrently \"pnpm --filter react-app dev\" \"pnpm --filter mock-server json-server\""
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^10.0.0"
+  }
 }

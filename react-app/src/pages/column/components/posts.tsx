@@ -55,7 +55,7 @@ export const Posts = () => {
         <Button
           onClick={handleLoadMore}
           disabled={!hasNextPage}
-          className='btn-gradient mx-auto mt-4 h-14 w-74 text-[18px] leading-[26px]'
+          className='btn-gradient mx-auto cursor-pointer mt-4 h-14 w-74 text-[18px] leading-[26px]'
         >
           コラムをもっと見る
         </Button>

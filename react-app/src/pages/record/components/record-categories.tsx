@@ -27,7 +27,7 @@ export const RecordCategories: FC = () => (
     {categories.map(category => (
       <div
         key={category.title}
-        className='border-primary-300 relative h-72 w-72 cursor-pointer overflow-hidden border-24'
+        className='border-primary-300 relative h-72 w-72 cursor-pointer overflow-hidden  border-24'
       >
         <img
           src={category.image}

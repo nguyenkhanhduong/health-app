@@ -12,7 +12,7 @@ const menuItems = [
   { id: 3, label: '目標', href: '/' },
   { id: 4, label: '選択中のコース', href: '/' },
   { id: 5, label: 'コラム一覧', href: ROUTER_CONFIG.COLUMN },
-  { id: 6, label: '設定', href: '/settings' },
+  { id: 6, label: '設定', href: '/' },
 ]
 export const Menu = () => {
   const [open, setOpen] = useState(false)
@@ -22,7 +22,7 @@ export const Menu = () => {
       onOpenChange={setOpen}
     >
       <PopoverTrigger asChild>
-        <button className='pl-4'>
+        <button className='pl-4 cursor-pointer '>
           <Icon
             size={32}
             name='menu'
@@ -38,7 +38,7 @@ export const Menu = () => {
       >
         <div className='relative'>
           <button
-            className='hover:bg-dark-500/90 bg-dark-500 absolute -top-8 -right-[0.5px] flex h-8 w-8 items-center justify-center rounded-none shadow-none hover:bg-none'
+            className='hover:bg-dark-500/90 cursor-pointer bg-dark-500 absolute -top-8 -right-[0.5px] flex h-8 w-8 items-center justify-center rounded-none shadow-none hover:bg-none'
             onClick={() => setOpen(false)}
           >
             <Icon

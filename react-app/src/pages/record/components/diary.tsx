@@ -48,7 +48,7 @@ export const Diary = () => {
           <Button
             disabled={!hasNextPage}
             onClick={handleLoadMore}
-            className='btn-gradient mx-auto mt-[18px] h-14 w-74 text-[18px] leading-[26px]'
+            className='btn-gradient cursor-pointer mx-auto mt-[18px] h-14 w-74 text-[18px] leading-[26px]'
           >
             自分の日記をもっと見る
           </Button>

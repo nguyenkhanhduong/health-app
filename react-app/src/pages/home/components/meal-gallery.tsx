@@ -47,7 +47,7 @@ export const MealGallery: FC = () => {
         <Button
           onClick={handleLoadMore}
           disabled={!hasNextPage}
-          className='btn-gradient mx-auto mt-5 h-14 w-74 text-[18px] leading-[26px]'
+          className='btn-gradient mx-auto cursor-pointer mt-5 h-14 w-74 text-[18px] leading-[26px]'
         >
           記録をもっと見る
         </Button>

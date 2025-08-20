@@ -4,7 +4,6 @@ import type { FC, ReactNode } from 'react'
 import type { IconName } from '@/components/icon'
 import { Icon } from '@/components/icon'
 import type { MealType } from '@/types'
-
 interface HexagonProps {
   width?: number
   height?: number

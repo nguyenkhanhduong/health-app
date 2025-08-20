@@ -2,7 +2,7 @@ import { Icon } from '@/components/icon'
 import { Badge } from '@/shadcn/components/ui/badge'
 
 export const Notification = () => (
-  <button className='flex items-center gap-2 pr-4 pl-2 text-white'>
+  <button className='flex cursor-pointer items-center gap-2 pr-4 pl-2 text-white'>
     <div className='relative'>
       <Icon
         size={32}
