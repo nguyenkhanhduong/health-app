@@ -1,0 +1,258 @@
+{
+  "meals": [
+    {
+      "id": "36b7639b-3a19-45ce-938d-2ce0079c19db",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Morning",
+      "url": "/images/m01.jpg"
+    },
+    {
+      "id": "41c37aee-6f4e-4528-bbf3-6816cdbdbce3",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Lunch",
+      "url": "/images/l03.jpg"
+    },
+    {
+      "id": "c9d6e93a-6f62-4171-ac88-8142c2fd74a6",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Dinner",
+      "url": "/images/d01.jpg"
+    },
+    {
+      "id": "e4b5240f-7278-475e-b762-23e983ee6e18",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Snack",
+      "url": "/images/l01.jpg"
+    },
+    {
+      "id": "4a408558-0482-46b1-bf1b-e8750f4d9514",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Morning",
+      "url": "/images/m01.jpg"
+    },
+    {
+      "id": "e459467d-5a9c-41a8-a57b-62905d4cb4fe",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Lunch",
+      "url": "/images/l02.jpg"
+    },
+    {
+      "id": "7500449e-244d-44c3-b2a5-ff81cf762e07",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Dinner",
+      "url": "/images/d02.jpg"
+    },
+    {
+      "id": "ab2c20d0-c597-45e2-8132-23ed08332d73",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Snack",
+      "url": "/images/s01.jpg"
+    },
+    {
+      "id": "1a669ab3-9608-40be-9bac-e5742ce1abae",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Morning",
+      "url": "/images/m01.jpg"
+    },
+    {
+      "id": "504c7a17-0820-4cd2-bea2-da89e044a317",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Lunch",
+      "url": "/images/l03.jpg"
+    },
+    {
+      "id": "fdd0cbdb-3985-496a-948e-a949f1df7c41",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Dinner",
+      "url": "/images/d01.jpg"
+    },
+    {
+      "id": "ecb4181a-9f3e-4930-b08c-9bfbab3e5192",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Snack",
+      "url": "/images/l01.jpg"
+    },
+    {
+      "id": "3656da80-3f86-4923-b934-75064765b3bd",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Morning",
+      "url": "/images/m01.jpg"
+    },
+    {
+      "id": "f37fd97d-bce9-4bb6-8a15-4d9474450c5d",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Lunch",
+      "url": "/images/l02.jpg"
+    },
+    {
+      "id": "98210bb9-2206-4eff-8638-c3bd5a75b1b2",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Dinner",
+      "url": "/images/d02.jpg"
+    },
+    {
+      "id": "94ec5692-e6a3-475d-acf2-14d6c3c1d399",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Snack",
+      "url": "/images/s01.jpg"
+    },
+    {
+      "id": "03060a5c-160d-45a4-95ae-c5729c94f452",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Morning",
+      "url": "/images/m01.jpg"
+    },
+    {
+      "id": "f00ee808-d81a-48ae-a6ec-4ff0db99cecc",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Lunch",
+      "url": "/images/l03.jpg"
+    },
+    {
+      "id": "1b9f7b98-e9f0-475c-971b-af3e1d21ffcc",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Dinner",
+      "url": "/images/d01.jpg"
+    },
+    {
+      "id": "84f23610-ffbb-43b0-8eb4-c354d3faf4ea",
+      "date": "2025-08-20T02:55:19.359Z",
+      "type": "Snack",
+      "url": "/images/l01.jpg"
+    },
+    {
+      "id": "fec784cd-9e15-4f66-af0f-a592920ad175",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Morning",
+      "url": "/images/m01.jpg"
+    },
+    {
+      "id": "0f5884a4-7c8b-4060-ad62-56953cdb78cc",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Lunch",
+      "url": "/images/l02.jpg"
+    },
+    {
+      "id": "b25e2e71-029b-4d68-af47-2d72fb8d2cad",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Dinner",
+      "url": "/images/d02.jpg"
+    },
+    {
+      "id": "78a1441d-ec50-44cb-8bb2-6cf7a0b68a55",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Snack",
+      "url": "/images/s01.jpg"
+    },
+    {
+      "id": "ae678fce-25c7-490f-b449-75cc6137de93",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Morning",
+      "url": "/images/m01.jpg"
+    },
+    {
+      "id": "4768b97a-2c9e-4c72-afd7-59092eaca246",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Lunch",
+      "url": "/images/l03.jpg"
+    },
+    {
+      "id": "b388e5c3-2c78-4a58-857d-707ee59377ff",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Dinner",
+      "url": "/images/d01.jpg"
+    },
+    {
+      "id": "68c669c6-953d-47c6-8843-093b875f9ed3",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Snack",
+      "url": "/images/l01.jpg"
+    },
+    {
+      "id": "7dc85132-4466-4c97-b446-969fc0084557",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Morning",
+      "url": "/images/m01.jpg"
+    },
+    {
+      "id": "fa9a0bfb-a80f-49f7-bcb0-aeaf2adbd500",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Lunch",
+      "url": "/images/l02.jpg"
+    },
+    {
+      "id": "caace954-e3dc-41af-a737-7e90f40208f5",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Dinner",
+      "url": "/images/d02.jpg"
+    },
+    {
+      "id": "b1fd9a50-60de-4b93-854c-8390e7ff0c6e",
+      "date": "2025-08-20T02:55:19.360Z",
+      "type": "Snack",
+      "url": "/images/s01.jpg"
+    }
+  ],
+  "yearly-report": [
+    {
+      "month": "6月",
+      "line1": 95,
+      "line2": 100
+    },
+    {
+      "month": "7月",
+      "line1": 75,
+      "line2": 90
+    },
+    {
+      "month": "8月",
+      "line1": 68,
+      "line2": 82
+    },
+    {
+      "month": "9月",
+      "line1": 82,
+      "line2": 85
+    },
+    {
+      "month": "10月",
+      "line1": 65,
+      "line2": 78
+    },
+    {
+      "month": "11月",
+      "line1": 62,
+      "line2": 72
+    },
+    {
+      "month": "12月",
+      "line1": 55,
+      "line2": 68
+    },
+    {
+      "month": "1月",
+      "line1": 48,
+      "line2": 62
+    },
+    {
+      "month": "2月",
+      "line1": 42,
+      "line2": 58
+    },
+    {
+      "month": "3月",
+      "line1": 35,
+      "line2": 55
+    },
+    {
+      "month": "4月",
+      "line1": 32,
+      "line2": 48
+    },
+    {
+      "month": "5月",
+      "line1": 28,
+      "line2": 52
+    }
+  ]
+}

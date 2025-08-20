@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "json-server --watch db.json --port 3001"
+    "start": "json-server --watch db.json --port 3001",
+    "json-server": "node server.js",
+    "seed": "node generate-db.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@faker-js/faker": "^9.9.0",
     "@typescript-eslint/eslint-plugin": "^8.39.1",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-no-relative-import-paths": "^1.6.1",
@@ -23,7 +26,10 @@
     "eslint-plugin-unicorn": "^60.0.0",
     "eslint-plugin-unused-imports": "^4.2.0",
     "globals": "^16.3.0",
-    "json-server": "1.0.0-beta.3",
+    "json-server": "^0.17.4",
     "typescript-eslint": "^8.39.1"
+  },
+  "dependencies": {
+    "faker-js": "^1.0.0"
   }
 }

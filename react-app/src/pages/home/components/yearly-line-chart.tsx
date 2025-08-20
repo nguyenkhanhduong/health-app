@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis } from 'recharts'
+import { useGetYearlyData } from '../hooks/use-get-yearly-report'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomTick: FC = ({ x, y, payload }: any) => {
@@ -30,21 +31,7 @@ const CustomTick: FC = ({ x, y, payload }: any) => {
   )
 }
 export const YearlyLineChart: FC = () => {
-  const data = [
-    { month: '6月', line1: 95, line2: 100 },
-    { month: '7月', line1: 75, line2: 90 },
-    { month: '8月', line1: 68, line2: 82 },
-    { month: '9月', line1: 82, line2: 85 },
-    { month: '10月', line1: 65, line2: 78 },
-    { month: '11月', line1: 62, line2: 72 },
-    { month: '12月', line1: 55, line2: 68 },
-    { month: '1月', line1: 48, line2: 62 },
-    { month: '2月', line1: 42, line2: 58 },
-    { month: '3月', line1: 35, line2: 55 },
-    { month: '4月', line1: 32, line2: 48 },
-    { month: '5月', line1: 28, line2: 52 },
-  ]
-
+  const { data } = useGetYearlyData()
   return (
     <div className='bg-dark-600 h-full w-full flex-1 pr-[98px] pl-[53px]'>
       <ResponsiveContainer

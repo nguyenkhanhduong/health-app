@@ -1,13 +1,13 @@
 import dayjs from 'dayjs'
 
-import Column1 from '@/assets/images/column-1.jpg'
-import Column2 from '@/assets/images/column-2.jpg'
-import Column3 from '@/assets/images/column-3.jpg'
-import Column4 from '@/assets/images/column-4.jpg'
-import Column5 from '@/assets/images/column-5.jpg'
-import Column6 from '@/assets/images/column-6.jpg'
-import Column7 from '@/assets/images/column-7.jpg'
-import Column8 from '@/assets/images/column-8.jpg'
+import Column1 from '/images/column-1.jpg'
+import Column2 from '/images/column-2.jpg'
+import Column3 from '/images/column-3.jpg'
+import Column4 from '/images/column-4.jpg'
+import Column5 from '/images/column-5.jpg'
+import Column6 from '/images/column-6.jpg'
+import Column7 from '/images/column-7.jpg'
+import Column8 from '/images/column-8.jpg'
 
 import { Button } from '@/shadcn/components/ui/button'
 
