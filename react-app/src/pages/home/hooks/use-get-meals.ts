@@ -14,7 +14,7 @@ export const useGetMeals = (type?: string) => {
     readonly unknown[],
     number
   >({
-    queryKey: ['meals',type],
+    queryKey: ['meals', type],
     queryFn: async ({ pageParam }) => getMeals(type, pageParam, LIMIT),
     getNextPageParam: (lastPage, allPages) => {
       const loaded = allPages.flatMap(p => p.data).length
