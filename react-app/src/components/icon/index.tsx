@@ -1,6 +1,7 @@
 import type { CSSProperties, FC } from 'react'
 
 import ChallengeIcon from '@/assets/icons/icon_challenge.svg?react'
+import CloseIcon from '@/assets/icons/icon_close.svg?react'
 import CupIcon from '@/assets/icons/icon_cup.svg?react'
 import InfoIcon from '@/assets/icons/icon_info.svg?react'
 import KnifeIcon from '@/assets/icons/icon_knife.svg?react'
@@ -14,6 +15,7 @@ const icons = {
   knife: KnifeIcon,
   memo: MemoIcon,
   menu: MenuIcon,
+  close: CloseIcon,
 } as const
 
 export type IconName = keyof typeof icons

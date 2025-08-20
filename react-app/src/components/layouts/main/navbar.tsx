@@ -2,13 +2,14 @@ import clsx from 'clsx'
 import type { FC } from 'react'
 import { Link, useLocation } from 'react-router'
 
+import type { IconName } from '@/components/icon'
 import { Icon } from '@/components/icon'
 import { ROUTER_CONFIG } from '@/router/router-config'
 
 type NavItem = {
   id: string
   label: string
-  icon: string
+  icon: IconName
   pathName: string
 }
 
@@ -31,6 +32,7 @@ export const NavBar: FC = () => {
           className='flex items-center gap-2 pr-4 pl-2 text-white'
         >
           <Icon
+            color='#FF963C'
             name={item.icon}
             size={32}
           />

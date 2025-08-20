@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { X } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router'
 
@@ -27,6 +26,7 @@ export const Menu = () => {
           <Icon
             size={32}
             name='menu'
+            color='#FF963C'
           />
         </button>
       </PopoverTrigger>
@@ -41,8 +41,9 @@ export const Menu = () => {
             className='hover:bg-dark-500/90 bg-dark-500 absolute -top-8 -right-[0.5px] flex h-8 w-8 items-center justify-center rounded-none shadow-none hover:bg-none'
             onClick={() => setOpen(false)}
           >
-            <X
-              className='h-[19px] w-[19px]'
+            <Icon
+              size={32}
+              name='close'
               color='#FF963C'
             />
           </button>

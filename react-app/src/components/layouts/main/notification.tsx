@@ -6,6 +6,7 @@ export const Notification = () => (
     <div className='relative'>
       <Icon
         size={32}
+        color='#FF963C'
         name='info'
       />
       <Badge className='bg-orange-680 absolute top-0 -right-2 h-4 w-4 rounded-full border-none text-[10px]'>
