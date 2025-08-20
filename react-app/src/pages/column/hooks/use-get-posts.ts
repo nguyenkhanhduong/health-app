@@ -1,21 +1,21 @@
 import type { InfiniteData } from '@tanstack/react-query'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
-import { getMeals } from '@/services/home'
-import type { Meal } from '@/types'
+import { getPosts } from '@/services/record'
+import type { Post } from '@/types/column'
 
 const LIMIT = 8
 
-export const useGetMeals = () => {
+export const useGetPosts = () => {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching, refetch } = useInfiniteQuery<
-    { data: Meal[]; total: number },
+    { data: Post[]; total: number },
     Error,
-    InfiniteData<{ data: Meal[]; total: number }, number>,
+    InfiniteData<{ data: Post[]; total: number }, number>,
     readonly unknown[],
     number
   >({
-    queryKey: ['meals'],
-    queryFn: async ({ pageParam }) => getMeals(pageParam, LIMIT),
+    queryKey: ['posts'],
+    queryFn: async ({ pageParam }) => getPosts(pageParam, LIMIT),
     getNextPageParam: (lastPage, allPages) => {
       const loaded = allPages.flatMap(p => p.data).length
       if (loaded < lastPage.total) {
@@ -25,10 +25,10 @@ export const useGetMeals = () => {
     },
     initialPageParam: 1,
   })
-  const meals = data?.pages.flatMap(page => page.data) ?? []
+  const posts = data?.pages.flatMap(page => page.data) ?? []
 
   return {
-    meals,
+    posts,
     fetchNextPage,
     hasNextPage,
     isLoading,

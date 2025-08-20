@@ -2,108 +2,11 @@ import type { FC } from 'react'
 
 import { RecordCard } from '@/pages/record/components/record-card'
 import { useExerciseData } from '@/pages/record/hooks/use-exercise-data'
-import type { IExercise } from '@/pages/record/types/exercise'
-
-const exercises: IExercise[] = [
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-  {
-    id: Math.random() + '',
-    name: '家事全般（立位・軽い）',
-    duration: 10,
-    calories: 26,
-  },
-]
+import { useGetExercises } from '@/pages/record/hooks/use-get-exercises'
+import type { IExercise } from '@/types/diary'
 
 export const Exercise = () => {
+  const { data: exercises } = useGetExercises()
   const { leftColumn, rightColumn } = useExerciseData(exercises)
   return (
     <section className='app-container mb-14 h-66 w-full'>

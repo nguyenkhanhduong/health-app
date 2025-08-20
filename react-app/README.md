@@ -2,13 +2,16 @@
 
 ## Introduction
 
-**Health App** is a modern healthcare web application built with React, TypeScript, Vite, TailwindCSS, and a suite of advanced UI libraries. The project architecture is designed for scalability, maintainability, and optimal user experience.
+**Health App** is a modern healthcare web application built with React, TypeScript, Vite,
+TailwindCSS, and a suite of advanced UI libraries. The project architecture is designed for
+scalability, maintainability, and optimal user experience.
 
 ## Architecture & Technology
 
 - **React 19** + **TypeScript**: Component-based, type-safe, and highly extensible.
 - **Vite**: Ultra-fast dev server, HMR, and optimized production builds.
-- **TailwindCSS**: Utility-first CSS framework, integrated with Prettier plugin for automatic class sorting.
+- **TailwindCSS**: Utility-first CSS framework, integrated with Prettier plugin for automatic class
+  sorting.
 - **React Router v7**: Dynamic routing, clear separation of pages/modules.
 - **Recharts**: Data visualization for health metrics.
 - **Radix UI**: Accessible, unstyled UI primitives.
@@ -65,6 +68,3 @@ pnpm dev
 ```
 
 Visit: http://localhost:5173
-
-
-

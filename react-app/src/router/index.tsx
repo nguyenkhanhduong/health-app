@@ -12,8 +12,6 @@ export const router = createBrowserRouter([
     path: ROUTER_CONFIG.ROOT,
     element: <MainLayout />,
     errorElement: <ErrorPage />,
-    children: [...homeRouters,
-       ...recordRouters, ...columnRouters
-      ],
+    children: [...homeRouters, ...recordRouters, ...columnRouters],
   },
 ])

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import type { IExercise } from '@/pages/record/types/exercise'
+import type { IExercise } from '@/types/diary'
 
 interface UseExerciseDataReturn {
   leftColumn: IExercise[]

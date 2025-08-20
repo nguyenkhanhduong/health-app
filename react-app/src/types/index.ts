@@ -7,11 +7,17 @@ export interface Meal {
   url: string
 }
 export type ChartLineData = {
-  month: string 
+  time: string
   line1: number
   line2: number
 }
-export interface Response<T> {
+export interface ResponseWithPagination<T> {
   data: T
   total: number
+}
+export interface BodyReport {
+  y: ChartLineData[]
+  m: ChartLineData[]
+  w: ChartLineData[]
+  d: ChartLineData[]
 }

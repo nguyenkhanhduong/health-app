@@ -1,6 +1,7 @@
 import type { FC } from 'react'
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis } from 'recharts'
-import { useGetYearlyData } from '../hooks/use-get-yearly-report'
+
+import { useGetYearlyData } from '@/pages/home/hooks/use-get-yearly-report'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomTick: FC = ({ x, y, payload }: any) => {
@@ -49,7 +50,7 @@ export const YearlyLineChart: FC = () => {
             vertical={true}
           />
           <XAxis
-            dataKey='month'
+            dataKey='time'
             axisLine={false}
             tickLine={false}
             tickMargin={10}
