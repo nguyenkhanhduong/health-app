@@ -17,7 +17,7 @@ const CustomTick: FC = ({ x, y, payload }: any) => {
         dy={-2}
         textAnchor='middle'
         fill='#ffffff'
-        className='font-inter'
+        className='font-inter leading-3'
       >
         <tspan fontSize='12'>{number}</tspan>
         <tspan

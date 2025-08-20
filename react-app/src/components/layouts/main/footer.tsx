@@ -30,7 +30,7 @@ const navItems = [
 
 export const Footer: FC = () => (
   <footer className='bg-dark-500 bottom-0 z-40 w-full'>
-    <nav className='app-container flex h-32 items-center gap-[45px] text-[11px] font-light text-white'>
+    <nav className='app-container flex h-32 items-center gap-[45px] text-[11px] leading-4 font-light tracking-[0.03px] text-white'>
       {navItems.map(i => (
         <Link
           key={i.label}

@@ -37,7 +37,7 @@ export const NavBar: FC = () => {
             size={32}
           />
           <span
-            className={clsx('w-24 text-base', {
+            className={clsx('w-24 text-base leading-[23px]', {
               ['text-primary-400']: location.pathname === item.pathName,
             })}
           >

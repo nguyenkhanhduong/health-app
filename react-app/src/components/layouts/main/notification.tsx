@@ -14,6 +14,6 @@ export const Notification = () => (
       </Badge>
     </div>
 
-    <span className='w-24 text-left text-base'>お知らせ</span>
+    <span className='w-24 text-left text-base leading-[23px]'>お知らせ</span>
   </button>
 )

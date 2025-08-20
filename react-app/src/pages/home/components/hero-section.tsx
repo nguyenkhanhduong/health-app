@@ -21,7 +21,7 @@ const SectionLeft = () => (
       <div className='text-shadow-orange font-inter relative flex size-[181px] items-center justify-center gap-1 font-normal text-white'>
         <img
           src={Circle}
-          className='absolute h-full w-full'
+          className='absolute h-full leading-[30px] w-full'
         />
         <span className='text-[18px]'>05/21</span>
         <span className='text-[25px]'>75%</span>
