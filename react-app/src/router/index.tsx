@@ -6,12 +6,13 @@ import { columnRouters } from '@/pages/column/routers'
 import { homeRouters } from '@/pages/home/routers'
 import { recordRouters } from '@/pages/record/routers'
 import { ROUTER_CONFIG } from '@/router/router-config'
+import { DemoCrawl } from '@/pages/demo-crawl-web'
 
 export const router = createBrowserRouter([
   {
     path: ROUTER_CONFIG.ROOT,
-    element: <MainLayout />,
+    element: <DemoCrawl />,
     errorElement: <ErrorPage />,
-    children: [...homeRouters, ...recordRouters, ...columnRouters],
+    // children: [...homeRouters, ...recordRouters, ...columnRouters],
   },
 ])
