@@ -19,20 +19,47 @@ const client = new BrowserUseClient({
 })
 
 export const DemoCrawl = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content:
-        "Hello! I'm your Web Crawling AI Assistant. I can help you extract data from websites, scrape content, analyze web pages, and more. What would you like to crawl today?",
-      timestamp: new Date(),
-    },
-  ])
+  // Load messages from localStorage or use default welcome message
+  const [messages, setMessages] = useState<Message[]>(() => {
+    try {
+      const savedMessages = localStorage.getItem('crawl-messages')
+      if (savedMessages) {
+        const parsed = JSON.parse(savedMessages)
+        // Convert timestamp strings back to Date objects
+        return parsed.map((msg: Message) => ({
+          ...msg,
+          timestamp: new Date(msg.timestamp),
+        }))
+      }
+    } catch (error) {
+      console.error('Error loading messages from localStorage:', error)
+    }
+    // Default welcome message
+    return [
+      {
+        id: '1',
+        role: 'assistant',
+        content:
+          "Hello! I'm your Web Crawling AI Assistant. I can help you extract data from websites, scrape content, analyze web pages, and more. What would you like to crawl today?",
+        timestamp: new Date(),
+      },
+    ]
+  })
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [crawledData, setCrawledData] = useState<Record<string, unknown>[] | null>(null)
+  const [currentTaskId, setCurrentTaskId] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    try {
+      localStorage.setItem('crawl-messages', JSON.stringify(messages))
+    } catch (error) {
+      console.error('Error saving messages to localStorage:', error)
+    }
+  }, [messages])
 
   // Auto scroll to bottom when new message arrives
   useEffect(() => {
@@ -45,15 +72,30 @@ export const DemoCrawl = () => {
     filename: string = 'crawled-data',
   ) => {
     try {
+      console.log('Exporting data to Excel:', data)
+      
       const workbook = new ExcelJS.Workbook()
       const worksheet = workbook.addWorksheet('Data')
 
       if (data.length === 0) {
+        console.error('No data to export')
+        return false
+      }
+
+      // Ensure data is properly structured
+      if (!Array.isArray(data)) {
+        console.error('Data is not an array:', data)
+        return false
+      }
+
+      if (!data[0] || typeof data[0] !== 'object') {
+        console.error('First item is not a valid object:', data[0])
         return false
       }
 
       // Get headers from first object
       const headers = Object.keys(data[0])
+      console.log('Excel headers:', headers)
 
       // Add headers
       worksheet.addRow(headers)
@@ -68,8 +110,9 @@ export const DemoCrawl = () => {
       worksheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } }
 
       // Add data rows
-      data.forEach(item => {
+      data.forEach((item, idx) => {
         const row = headers.map(header => item[header])
+        console.log(`Row ${idx + 1}:`, row)
         worksheet.addRow(row)
       })
 
@@ -99,6 +142,7 @@ export const DemoCrawl = () => {
       link.click()
       window.URL.revokeObjectURL(url)
 
+      console.log('✅ Excel exported successfully')
       return true
     } catch (error) {
       console.error('Error exporting to Excel:', error)
@@ -128,176 +172,92 @@ export const DemoCrawl = () => {
       // Create crawl task with detailed prompt
       const task = await client.tasks.createTask({
         llm: 'browser-use-llm',
-        task: `You are a professional web data extraction specialist. Today is November 26, 2025.
+        task: `Extract data for: "${input}"
 
-USER REQUEST: "${input}"
+🚨 ABSOLUTE REQUIREMENT - NO EXCEPTIONS 🚨
+Your response MUST end with a JSON code block. This is MANDATORY.
+If you don't include the JSON block, the task FAILS.
 
-CRITICAL REQUIREMENT: Extract REAL-TIME, COMPLETE, and DETAILED data with FULL context.
+📋 RESPONSE STRUCTURE (FOLLOW EXACTLY):
 
-STEP 1: UNDERSTAND WHAT USER REALLY WANTS
-Analyze the request to determine:
-- DOMAIN: What category? (prices, news, weather, products, stocks, sports, etc.)
-- TIME SENSITIVITY: Do they need LATEST/CURRENT data? (default: YES for most queries)
-- LOCATION: What region/country? (infer from language/context if not stated)
-- COMPLETENESS: What details make the data USEFUL and ACTIONABLE?
+Step 1: Brief description (1-2 sentences)
+Step 2: ALWAYS add this JSON block with triple backticks:
 
-STEP 2: FIND THE MOST CURRENT & RELIABLE SOURCE
-- For prices/market data: Use official sources, update within the last FEW HOURS
-- For news: Use major news sites, published within last 24 hours
-- For products: Use verified sellers with real-time inventory
-- VERIFY the data timestamp on the source website
-- Look for "Last updated" or "As of [time]" indicators
+[Your JSON array here]
 
-STEP 3: EXTRACT COMPLETE DETAILS - NO SHORTCUTS
+❌ THESE RESPONSES ARE INVALID AND REJECTED:
+- "Found 5 retailers from NRF Top 100 List..." (stops without JSON)
+- Returning only text description
+- Returning summary/statistics instead of specific items
 
-MANDATORY FIELDS FOR ALL DATA:
-✓ Exact timestamp with hours:minutes (e.g., "2025-11-26T14:30:00+07:00")
-✓ Clear descriptions/names (be SPECIFIC - don't just say "Gold", say "SJC Gold Ring 24K")
-✓ Full location/region info
-✓ Source URL or source name
-✓ All relevant categories/types/variants
+✅ VALID RESPONSE EXAMPLE:
+"Found 5 retailers from NRF Top 100 List, ranked by worldwide retail sales for 2024.
 
-DOMAIN-SPECIFIC REQUIREMENTS:
+[JSON ARRAY WITH 5 SPECIFIC RETAILERS HERE]"
 
-For PRICES (gold, stocks, currency, commodities):
-✓ Item TYPE/CATEGORY (e.g., "SJC Gold Bar 1 Tael", "Gold Ring 24K", "Gold Necklace 18K")
-✓ UNIT/SIZE (gram, tael, ounce, piece, kilogram)
-✓ BUY and SELL prices (both if available)
-✓ Currency clearly stated
-✓ Company/Store name
-✓ City/Location (not just "Vietnam" - be specific: "Hanoi", "HCMC")
-✓ EXACT update time (with hour and minute)
-✓ Previous price or change% if available
-✓ Market trend (increasing/decreasing/stable)
+🎯 CRITICAL RULES:
+1. If user asks "Top 5" → Return EXACTLY 5 items (not 1 summary)
+2. Return SPECIFIC items (companies/products), NOT statistics/forecasts
+3. EVERY response MUST include JSON code block with triple backticks
+4. JSON must be VALID (use double quotes, proper syntax)
 
-For PRODUCTS/E-COMMERCE:
-✓ Full product name with model/variant
-✓ Brand and seller name
-✓ ALL price tiers (regular price, sale price, member price)
-✓ Stock status (in stock, low stock, out of stock, quantity)
-✓ Shipping info (free shipping, days to deliver)
-✓ Ratings and review count
-✓ Product variants (color, size, capacity)
-✓ Warranty info
+📝 FIELD NAMING STANDARDS:
+- rank → "rank": 1
+- Company name → "companyName": "Walmart"
+- Sales/Revenue → "salesBillion": 568.70 or "revenueMillions": 1200
+- Year → "year": 2025
+- Date → "date": "2025-11-26" or "lastUpdatedAt": "2025-11-26T14:30:00+07:00"
+- Location → "location": "Hanoi, Vietnam"
+- Price → "priceVND": 85500000
+- Growth → "salesGrowthPercent": 3.5
 
-For NEWS/ARTICLES:
-✓ Full headline
-✓ Category and subcategory
-✓ Publication name and author
-✓ EXACT publish timestamp (with time)
-✓ Article summary (2-3 sentences)
-✓ View count, engagement metrics
-✓ Tags/keywords
-✓ Article URL
+📚 COMPLETE EXAMPLES:
 
-For WEATHER:
-✓ Specific location (city + district if possible)
-✓ Current conditions + hourly forecast
-✓ Temperature (both Celsius and Fahrenheit)
-✓ "Feels like" temperature
-✓ Humidity, wind speed, UV index
-✓ Rain probability
-✓ Air quality index
-✓ Timestamp of forecast
+Query: "Top 5 retailers 2025"
+Your response must be:
 
-For SPORTS/EVENTS:
-✓ Event name and league/competition
-✓ Teams/players involved
-✓ Exact date and time (with timezone)
-✓ Location/venue
-✓ Current score or result
-✓ Status (live, upcoming, finished)
-✓ Statistics if available
+Found 5 retailers from NRF Top 100 List, ranked by worldwide retail sales for 2024.
 
-STEP 4: STRUCTURE DATA WITH MAXIMUM DETAIL
-
-Property naming rules:
-- Be DESCRIPTIVE: "sjcGoldBar1TaelBuyPrice" not just "price"
-- Include UNITS: "pricePerGramVND", "temperatureCelsius"
-- Include CONTEXT: "lastUpdatedAt", "publishedDateTime", "asOfTime"
-- Use camelCase consistently
-
-Example for GOLD PRICES (what user expects):
+JSON BLOCK (with triple backticks and "json" keyword):
 [
-  {
-    "goldType": "SJC Gold Bar",
-    "unit": "1 Tael (37.5g)",
-    "company": "SJC - Saigon Jewelry Company",
-    "location": "Hanoi",
-    "region": "Vietnam",
-    "buyPriceVND": 85500000,
-    "sellPriceVND": 86000000,
-    "pricePerGramVND": 2280000,
-    "previousDayBuyPriceVND": 85200000,
-    "changeVND": 300000,
-    "changePercentage": 0.35,
-    "trend": "increasing",
-    "lastUpdatedAt": "2025-11-26T14:30:00+07:00",
-    "updateFrequency": "Hourly",
-    "dataSource": "SJC Official Website",
-    "sourceUrl": "https://sjc.com.vn",
-    "isOfficialPrice": true,
-    "notes": "Prices may vary by location"
-  },
-  {
-    "goldType": "Gold Ring 24K",
-    "unit": "1 Chi (3.75g)",
-    "company": "PNJ - Phu Nhuan Jewelry",
-    "location": "Ho Chi Minh City",
-    "region": "Vietnam",
-    "buyPriceVND": 8400000,
-    "sellPriceVND": 8500000,
-    "pricePerGramVND": 2240000,
-    "lastUpdatedAt": "2025-11-26T14:15:00+07:00",
-    "dataSource": "PNJ Official Website",
-    "isOfficialPrice": true
-  }
+  {"rank": 1, "companyName": "Walmart", "year": 2024, "usaRetailSalesBillion": 568.70, "worldwideRetailSalesBillion": 675.58},
+  {"rank": 2, "companyName": "Amazon.com", "year": 2024, "usaRetailSalesBillion": 273.66, "worldwideRetailSalesBillion": 391.40},
+  {"rank": 3, "companyName": "Costco Wholesale", "year": 2024, "usaRetailSalesBillion": 183.05, "worldwideRetailSalesBillion": 244.89},
+  {"rank": 4, "companyName": "The Kroger Co.", "year": 2024, "usaRetailSalesBillion": 150.79, "worldwideRetailSalesBillion": 150.79},
+  {"rank": 5, "companyName": "The Home Depot", "year": 2024, "usaRetailSalesBillion": 148.21, "worldwideRetailSalesBillion": 157.57}
 ]
 
-STEP 5: QUALITY CHECKS BEFORE RETURNING
+Query: "Gold price today"
+Your response must be:
 
-Ask yourself:
-1. Is the timestamp RECENT and SPECIFIC (with hours:minutes)?
-2. Are ALL categories/types/variants included?
-3. Is location SPECIFIC (city/store level, not just country)?
-4. Are prices/numbers CURRENT (not from weeks ago)?
-5. Is the data COMPLETE (no major missing fields)?
-6. Would I be satisfied with this data if I asked the question?
-7. Can the user take ACTION with this data?
+Found 3 gold products from SJC with latest prices.
 
-❌ BAD DATA:
-- Generic timestamp "2025-11-26T00:00:00Z" (no time!)
-- Vague names "Gold Bar" (which type? which size?)
-- Only country "Vietnam" (which city? which store?)
-- Missing prices or incomplete info
-
-✅ GOOD DATA:
-- Specific time "2025-11-26T14:30:00+07:00"
-- Clear name "SJC Gold Bar 1 Tael 99.99%"
-- Full location "Hanoi, Vietnam - SJC Main Branch"
-- Complete prices with context
-
-STEP 6: FINAL OUTPUT
-
-Provide a brief summary explaining what you found, then:
-
-\`\`\`json
+JSON BLOCK:
 [
-  { your detailed, complete, up-to-date data here }
+  {"goldType": "SJC Gold Bar 1 Tael", "buyPriceVND": 85500000, "sellPriceVND": 86000000, "location": "Hanoi", "lastUpdatedAt": "2025-11-26T14:30:00+07:00"},
+  {"goldType": "SJC Gold Ring 24K", "buyPriceVND": 8400000, "sellPriceVND": 8500000, "location": "HCMC", "lastUpdatedAt": "2025-11-26T14:30:00+07:00"},
+  {"goldType": "PNJ Gold Bar", "buyPriceVND": 85200000, "sellPriceVND": 85800000, "location": "Hanoi", "lastUpdatedAt": "2025-11-26T14:15:00+07:00"}
 ]
-\`\`\`
 
-REMEMBER: 
-- User wants CURRENT data (with recent timestamps)
-- User wants COMPLETE details (all variants, all locations)
-- User wants ACTIONABLE info (enough detail to make decisions)
-- Generic or incomplete data is USELESS
-- When in doubt, include MORE detail, not less`,
+NOW EXTRACT FOR: "${input}"
+
+⚠️ FINAL REMINDER:
+- Your response MUST end with JSON code block using triple backticks
+- If "Top X" requested, return EXACTLY X specific items
+- Return SPECIFIC data (companies/products), NOT summaries/forecasts
+- Use proper JSON syntax (double quotes, commas)
+- Format: Description text, then JSON block with triple backticks`,
       })
+
+      // Save task ID for stopping
+      setCurrentTaskId(task.id)
 
       // Wait for task completion and get result
       const result = await task.complete()
       console.log('result', result.output)
+
+      // Clear task ID after completion
+      setCurrentTaskId(null)
 
       // Parse the output data from result
       let extractedData: Record<string, unknown>[] = []
@@ -347,21 +307,68 @@ REMEMBER:
       try {
         // Try to parse JSON from result.output
         if (result.output && typeof result.output === 'string') {
-          // First, try to extract JSON from code blocks
-          const jsonCodeBlockMatch = result.output.match(/```json\s*([\s\S]*?)\s*```/)
+          let output = result.output
+
+          // Replace escaped newlines and tabs with actual characters
+          output = output.replace(/\\n/g, '\n').replace(/\\t/g, '\t')
+
+          // Method 1: Extract JSON from ```json code blocks
+          const jsonCodeBlockMatch = output.match(/```json\s*([\s\S]*?)\s*```/)
           if (jsonCodeBlockMatch) {
-            extractedData = JSON.parse(jsonCodeBlockMatch[1])
-          } else {
-            // Try to find any JSON array in the output
-            const jsonMatch = result.output.match(/\[[\s\S]*\]/)
-            if (jsonMatch) {
-              extractedData = JSON.parse(jsonMatch[0])
-            } else {
-              // Try to parse CSV data
-              const csvData = result.output.trim()
-              if (csvData.includes(',') && csvData.includes('\n')) {
-                const lines = csvData.split('\n')
-                if (lines.length > 1) {
+            try {
+              let jsonContent = jsonCodeBlockMatch[1].trim()
+              // Remove escape backslashes from quotes
+              jsonContent = jsonContent.replace(/\\"/g, '"')
+              extractedData = JSON.parse(jsonContent)
+              console.log('Method 1: Extracted from ```json block')
+            } catch (e) {
+              console.error('Failed to parse JSON code block:', e)
+            }
+          }
+
+          // Method 2: Extract JSON from ``` code blocks (without json keyword)
+          if (extractedData.length === 0) {
+            const codeBlockMatch = output.match(/```\s*([\s\S]*?)\s*```/)
+            if (codeBlockMatch) {
+              try {
+                let content = codeBlockMatch[1].trim()
+                if (content.startsWith('[') || content.startsWith('{')) {
+                  // Remove escape backslashes from quotes
+                  content = content.replace(/\\"/g, '"')
+                  extractedData = JSON.parse(content)
+                  console.log('Method 2: Extracted from ``` block')
+                }
+              } catch (e) {
+                console.error('Failed to parse code block:', e)
+              }
+            }
+          }
+
+          // Method 3: Find any JSON array in the output (greedy match)
+          if (extractedData.length === 0) {
+            // Find the first [ and last ] to get the full array
+            const firstBracket = output.indexOf('[')
+            const lastBracket = output.lastIndexOf(']')
+            if (firstBracket !== -1 && lastBracket !== -1 && lastBracket > firstBracket) {
+              try {
+                let jsonStr = output.substring(firstBracket, lastBracket + 1)
+                // Remove escape backslashes from quotes
+                jsonStr = jsonStr.replace(/\\"/g, '"')
+                extractedData = JSON.parse(jsonStr)
+                console.log('Method 3: Extracted from bracket match')
+              } catch (e) {
+                console.error('Failed to parse JSON array:', e)
+              }
+            }
+          }
+
+          // Method 4: Try to parse CSV data
+          if (extractedData.length === 0) {
+            const csvData = output.trim()
+            if (csvData.includes(',') && csvData.includes('\n')) {
+              const lines = csvData.split('\n')
+              if (lines.length > 1) {
+                try {
                   // Get headers from first line
                   const headers = lines[0].split(',').map(h =>
                     h
@@ -396,15 +403,38 @@ REMEMBER:
                       })
                       return obj
                     })
+                  console.log('Method 4: Extracted from CSV')
+                } catch (e) {
+                  console.error('Failed to parse CSV:', e)
                 }
               }
             }
           }
         } else if (Array.isArray(result.output)) {
           extractedData = result.output
+          console.log('Output is already an array')
         }
       } catch (parseError) {
         console.error('Error parsing result:', parseError)
+      }
+
+      // Log extracted data for debugging
+      if (extractedData.length > 0) {
+        console.log('Successfully extracted data:', extractedData)
+      } else {
+        console.log('No data extracted from output:', result.output)
+        
+        // Fallback: If AI only returned text without JSON, create a simple object
+        if (result.output && typeof result.output === 'string' && result.output.length > 0) {
+          const fallbackData: Record<string, unknown> = {
+            rawOutput: result.output,
+            query: userRequest,
+            extractedAt: new Date().toISOString(),
+            note: 'AI did not return structured JSON. This is the raw text response.',
+          }
+          extractedData = [fallbackData]
+          console.log('Created fallback data object')
+        }
       }
 
       // Store the crawled data
@@ -436,6 +466,7 @@ Task ID: ${task.id || 'pending'}`,
       setIsTyping(false)
     } catch (error) {
       console.error('Error creating task:', error)
+      setCurrentTaskId(null) // Clear task ID on error
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -449,10 +480,48 @@ Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
     }
   }
 
+  const handleStopTask = async () => {
+    if (!currentTaskId) {
+      return
+    }
+
+    try {
+      await client.tasks.updateTask({ task_id: currentTaskId, action: 'stop' })
+      setCurrentTaskId(null)
+      setIsTyping(false)
+
+      const stopMessage: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: '⏹️ Task stopped by user.',
+        timestamp: new Date(),
+      }
+      setMessages(prev => [...prev, stopMessage])
+    } catch (error) {
+      console.error('Error stopping task:', error)
+    }
+  }
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       handleSendMessage()
+    }
+  }
+
+  const handleClearChat = () => {
+    const confirmClear = window.confirm('Are you sure you want to clear all messages?')
+    if (confirmClear) {
+      const defaultMessage: Message = {
+        id: '1',
+        role: 'assistant',
+        content:
+          "Hello! I'm your Web Crawling AI Assistant. I can help you extract data from websites, scrape content, analyze web pages, and more. What would you like to crawl today?",
+        timestamp: new Date(),
+      }
+      setMessages([defaultMessage])
+      setCrawledData(null)
+      localStorage.removeItem('crawl-messages')
     }
   }
 
@@ -545,6 +614,28 @@ Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
           </div>
           <div className='flex items-center gap-2'>
             <Button
+              onClick={handleClearChat}
+              variant='ghost'
+              size='sm'
+              className='hover:bg-slate-100 dark:hover:bg-slate-800 text-sm'
+              title='Clear chat history'
+            >
+              <svg
+                className='h-4 w-4 mr-1'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
+                />
+              </svg>
+              Clear
+            </Button>
+            <Button
               variant='ghost'
               size='icon'
               className='hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -569,7 +660,7 @@ Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
         {/* Messages */}
         <ScrollArea className='flex-1'>
           <div className='mx-auto max-w-4xl space-y-6 px-6 py-8'>
-            {messages.map(message => (
+            {messages.map((message, index) => (
               <div
                 key={message.id}
                 className={cn(
@@ -609,47 +700,50 @@ Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
                       {message.content}
                     </p>
 
-                    {/* Export button for assistant messages with data */}
-                    {message.role === 'assistant' && crawledData && crawledData.length > 0 && (
-                      <Button
-                        onClick={async () => {
-                          const success = await exportToExcel(crawledData, 'crawled-data')
-                          if (success) {
-                            const successMsg: Message = {
-                              id: Date.now().toString(),
-                              role: 'assistant',
-                              content: '✅ Excel file downloaded successfully!',
-                              timestamp: new Date(),
+                    {/* Export button - only show for last assistant message with data */}
+                    {message.role === 'assistant' &&
+                      crawledData &&
+                      crawledData.length > 0 &&
+                      index === messages.length - 1 && (
+                        <Button
+                          onClick={async () => {
+                            const success = await exportToExcel(crawledData, 'crawled-data')
+                            if (success) {
+                              const successMsg: Message = {
+                                id: Date.now().toString(),
+                                role: 'assistant',
+                                content: '✅ Excel file downloaded successfully!',
+                                timestamp: new Date(),
+                              }
+                              setMessages(prev => [...prev, successMsg])
+                            } else {
+                              const errorMsg: Message = {
+                                id: Date.now().toString(),
+                                role: 'assistant',
+                                content: '❌ Failed to export Excel file. Please try again.',
+                                timestamp: new Date(),
+                              }
+                              setMessages(prev => [...prev, errorMsg])
                             }
-                            setMessages(prev => [...prev, successMsg])
-                          } else {
-                            const errorMsg: Message = {
-                              id: Date.now().toString(),
-                              role: 'assistant',
-                              content: '❌ Failed to export Excel file. Please try again.',
-                              timestamp: new Date(),
-                            }
-                            setMessages(prev => [...prev, errorMsg])
-                          }
-                        }}
-                        className='mt-3 w-full bg-green-600 text-white hover:bg-green-700'
-                      >
-                        <svg
-                          className='mr-2 h-4 w-4'
-                          fill='none'
-                          stroke='currentColor'
-                          viewBox='0 0 24 24'
+                          }}
+                          className='mt-3 w-full bg-green-600 text-white hover:bg-green-700'
                         >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            strokeWidth={2}
-                            d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                          />
-                        </svg>
-                        Export to Excel ({crawledData.length} items)
-                      </Button>
-                    )}
+                          <svg
+                            className='mr-2 h-4 w-4'
+                            fill='none'
+                            stroke='currentColor'
+                            viewBox='0 0 24 24'
+                          >
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              strokeWidth={2}
+                              d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                            />
+                          </svg>
+                          Export to Excel ({crawledData.length} items)
+                        </Button>
+                      )}
                   </div>
                   <span className='px-1 text-xs text-slate-500 dark:text-slate-400'>
                     {message.timestamp.toLocaleTimeString('vi-VN', {
@@ -752,6 +846,30 @@ Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
                   />
                 </svg>
               </Button>
+
+              {isTyping && currentTaskId && (
+                <Button
+                  onClick={handleStopTask}
+                  size='icon'
+                  variant='destructive'
+                  className='h-12 w-12 rounded-2xl shadow-lg'
+                  title='Stop crawling'
+                >
+                  <svg
+                    className='h-5 w-5'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M6 18L18 6M6 6l12 12'
+                    />
+                  </svg>
+                </Button>
+              )}
             </div>
 
             <p className='mt-3 text-center text-xs text-slate-500 dark:text-slate-400'>
