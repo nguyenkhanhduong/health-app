@@ -12,7 +12,7 @@ import { TextEffect } from '@/pages/text-effect'
 export const router = createBrowserRouter([
   {
     path: ROUTER_CONFIG.ROOT,
-    element: <DemoCrawl />,
+    element: <TextEffect />,
     errorElement: <ErrorPage />,
     // children: [...homeRouters, ...recordRouters, ...columnRouters],
   },
