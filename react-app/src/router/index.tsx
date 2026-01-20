@@ -6,7 +6,6 @@ import { ErrorPage } from '@/components/error-page'
 // import { homeRouters } from '@/pages/home/routers'
 // import { recordRouters } from '@/pages/record/routers'
 import { ROUTER_CONFIG } from '@/router/router-config'
-import { DemoCrawl } from '@/pages/demo-crawl-web'
 import { TextEffect } from '@/pages/text-effect'
 
 export const router = createBrowserRouter([
